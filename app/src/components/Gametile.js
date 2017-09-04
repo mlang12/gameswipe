@@ -7,7 +7,6 @@ class Gametile extends Component {
 
   render() {
     var coverImg;
-    console.log(this.props.result.cover)
     if (this.props.result.cover === undefined) {
       coverImg = '../images/noThumb.png'
     } else {
