@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import LandingTiles from './components/LandingTiles.js'
 import logo from './logo.svg';
 import './App.css';
 import helpers from './utils/helpers.js'
@@ -9,21 +10,24 @@ class App extends Component {
     this.state = {
       landingDisplays: []
     };
-    this.getLanding = this.getLanding.bind(this);
   }
 
-  getLanding() {
-    this.setState({
-      landingDisplays: helpers.getLanding()
-    })
+  componentDidMount(){
+    if(this.state.landingDisplays.length === 0 || this.state.landingDisplays === 'undefined') {
+      helpers.getLanding().then((displays) => {
+        this.setState({
+          landingDisplays: displays.data.body
+        });
+      });
+    }
   }
 
   render() {
     return (
       <div className="App">
-        <button onClick={getLanding}>
-          Get Landing
-        </button>
+        <div className="landingTileArea">
+          <LandingTiles results={this.state.landingDisplays}/>
+        </div>
       </div>
     );
   }

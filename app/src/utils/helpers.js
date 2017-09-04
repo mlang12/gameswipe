@@ -2,9 +2,9 @@ import axios from 'axios';
 
 var helpers = {
   getLanding: function(){
-    axios.get('/api/landing')
+    return axios.get('api/landing')
       .then(function (response) {
-        console.log(response);
+        return response;
       })
       .catch(function (error) {
         console.log(error);
@@ -12,4 +12,4 @@ var helpers = {
   }
 }
 
-module.exports = helpers;
+export default helpers;
