@@ -16,14 +16,14 @@ class Header extends Component {
       return <GuestHeader/>;
     }
     return (
-      <div className="header row">
-        <div className="col-xl-6 colxs-6 textLeft">
-          <h1><span className="logoSmooth">Game</span><span className="logoSwipe">Swipe</span></h1>
+      <nav className="navbar header row">
+        <div className="col-xl-6 col-md-6 col-xs-6 textLeft">
+          <h1 className="logo"><span className="logoSmooth">Game</span><span className="logoSwipe">Swipe</span></h1>
         </div>
-        <div className="col-xl-6 colxs-6 textRight">
-          {Greeting(this.props)}
+        <div className="col-xl-6 col-md-6 col-xs-6 textRight">
+          <h2>{Greeting(this.props)}</h2>
         </div>  
-      </div>
+      </nav>
     );
   }
 }

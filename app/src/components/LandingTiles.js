@@ -8,11 +8,11 @@ class LandingTiles extends Component {
 
   render() {
     return (
-      <ul>
+      <div className="row">
         {this.props.results.map(function(result) {
            return <Gametile key={result.id} result={result}/>;
         })}
-      </ul>
+      </div>
     );
   }
 }

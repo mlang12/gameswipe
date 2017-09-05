@@ -14,14 +14,17 @@ function isLoggedIn(req, res, next) {
 
 function routes(app, passport) {
   //Function to get the basic landing tiles
+  var randomStart;
   app.get("/api/landing", function(req, res) {
+    randomStart = Math.floor(Math.random()*5000);
     client.games({
-      fields: '*', // Return all fields
+      fields: ['name','cover', 'release_dates'], // Return all fields
       limit: 50, // Limit to 5 results
-      offset: 0 // Index offset for results
+      offset: randomStart // Index offset for results
     }).then(response => {
-      const cleanResponse = utils.replacePics('screenshot_med', response);
-      res.send(cleanResponse);
+      let cleanResponse = utils.replacePics('screenshot_med', response);
+      utils.sendRes(res, utils.clearResponseOfEmpty('cover', cleanResponse));
+      // res.send(cleanResponse);
     }).catch(error => {
       throw error;
     });
