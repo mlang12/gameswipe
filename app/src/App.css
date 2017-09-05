@@ -3,6 +3,12 @@
 * {
   font-family: 'Open Sans', sans-serif;
 }
+
+a,
+a:hover {
+    text-decoration: none !important;
+}
+
 body {
   background: #de6161;  /* fallback for old browsers */
   background: -webkit-linear-gradient(to top, #2657eb, #de6161);  /* Chrome 10-25, Safari 5.1-6 */
@@ -60,17 +66,15 @@ body {
   height: 100%;
 }
 
-.menuItem {
+.menuItem,
+.logo {
   color: white;
 }
 
-.menuItem:hover {
-  color: darkgrey;
-  text-decoration: none;
+.menuItem:hover,
+.logo:hover {
+  color: darkslategrey;
   -webkit-transition: color .3s; /* Safari */
   transition: color .3s;
 }
 
-.logo {
-  color: white;
-}

@@ -18,7 +18,7 @@ class Header extends Component {
     return (
       <nav className="navbar header row">
         <div className="col-xl-6 col-md-6 col-xs-6 textLeft">
-          <h1 className="logo"><span className="logoSmooth">Game</span><span className="logoSwipe">Swipe</span></h1>
+          <a href="/"><h1 className="logo"><span className="logoSmooth">Game</span><span className="logoSwipe">Swipe</span></h1></a>
         </div>
         <div className="col-xl-6 col-md-6 col-xs-6 textRight">
           <h2>{Greeting(this.props)}</h2>
