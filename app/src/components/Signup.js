@@ -18,7 +18,7 @@ class Signup extends Component {
 
   handleSubmit(event){
     helpers.signUp(this.state).then(function(data) {
-      document.write(data.data);
+      console.log(data);
     });
     event.preventDefault();
   }
@@ -31,7 +31,7 @@ class Signup extends Component {
           <input type="text" className="form-control" name="username" onChange={this.handleChange} placeholder="Username..."/>
           <input type="text" className="form-control" name="email" onChange={this.handleChange} placeholder="Email..."/>
           <input type="password" className="form-control" name="password" onChange={this.handleChange} placeholder="Password..."/>
-          <button className="btn btn-lg btn-primary btn-block" type="submit">Signup</button>   
+          <button className="btn btn-lg btn-primary btn-block">Signup</button>   
         </form>
       </div>
     );  

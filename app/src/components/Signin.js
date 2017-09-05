@@ -8,6 +8,11 @@ class Signin extends Component {
     this.state = {};
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.authPass = this.authPass.bind(this);
+  }
+
+  authPass(profile) {
+    this.props.setAuth(true, profile);
   }
 
   handleChange(event) {
@@ -17,10 +22,18 @@ class Signin extends Component {
 
   handleSubmit(event){
     event.preventDefault();
+    const setAuth = this.props.setAuth
+    const hist = this.props.history.pushState
     helpers.signIn(this.state).then(function(response) {
-      console.log(response);
+      if(response.data.local !== undefined) {
+        setAuth(true, response);
+        hist(null, 'profile');
+      } else {
+        console.log('Failed to login.');
+      }
     });
   }
+
   render() {
     return (
       <div className="signin">
@@ -28,7 +41,7 @@ class Signin extends Component {
           <h2 className="form-signin-heading">Please login</h2>
           <input type="text" className="form-control" name="email" onChange={this.handleChange} placeholder="Email..."/>
           <input type="password" className="form-control" name="password" onChange={this.handleChange} placeholder="Password..."/>
-          <button className="btn btn-lg btn-primary btn-block" type="submit">Login</button>   
+          <button className="btn btn-lg btn-primary btn-block">Login</button>   
         </form>
       </div>
     );

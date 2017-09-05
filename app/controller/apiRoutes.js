@@ -2,6 +2,7 @@ const igdb = require('igdb-api-node').default;
 const key = require('../keys').key;
 const client = igdb(key);
 const utils = require('./util.js');
+const User = require('../model/User.js');
 
   // route middleware to make sure
 function isLoggedIn(req, res, next) {
@@ -72,7 +73,11 @@ function routes(app, passport) {
 
   app.get('/profile', isLoggedIn, function(req,res) {
     User.findOne({
-      user: req.email
+      email: req.body.email
+    }).then(function(data){
+      data.local.password = null;
+      console.log('thelogindata', data.local)
+      res.send(data);
     })
   });
 }

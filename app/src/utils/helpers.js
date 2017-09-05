@@ -14,11 +14,11 @@ var helpers = {
   signIn: function(creds) {
     return axios.post('/login', creds)
       .then(function (response){
-        console.log('++++++++++++++', response)
         return response;
       })
       .catch(function (error) {
         console.log(error)
+        return error;
       })
   },
   
@@ -26,11 +26,11 @@ var helpers = {
     console.log(creds)
     return axios.post('/signup', creds)
       .then(function (response){
-        console.log('++++++++++++++', response)
         return response;
       })
       .catch(function (error) {
         console.log(error)
+        return error;
       })
   }
 }
