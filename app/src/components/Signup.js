@@ -17,7 +17,9 @@ class Signup extends Component {
   }
 
   handleSubmit(event){
-    helpers.signUp(this.state);
+    helpers.signUp(this.state).then(function(data) {
+      document.write(data.data);
+    });
     event.preventDefault();
   }
 

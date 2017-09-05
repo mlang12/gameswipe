@@ -16,14 +16,15 @@ class Signin extends Component {
   }
 
   handleSubmit(event){
-    console.log(this.state)
-    helpers.signIn(this.state);
     event.preventDefault();
+    helpers.signIn(this.state).then(function(response) {
+      console.log(response);
+    });
   }
   render() {
     return (
       <div className="signin">
-        <form className="form-signin col-md-4 offset-md-4">       
+        <form className="form-signin col-md-4 offset-md-4" onSubmit={this.handleSubmit}>       
           <h2 className="form-signin-heading">Please login</h2>
           <input type="text" className="form-control" name="email" onChange={this.handleChange} placeholder="Email..."/>
           <input type="password" className="form-control" name="password" onChange={this.handleChange} placeholder="Password..."/>

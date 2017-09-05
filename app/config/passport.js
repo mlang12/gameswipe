@@ -17,7 +17,6 @@ module.exports = function(passport) {
 
     // used to serialize the user for the session
     passport.serializeUser(function(user, done) {
-      console.log('<<<<<<<<<<<<<', user)
         done(null, user.id);
     });
 
@@ -40,8 +39,8 @@ module.exports = function(passport) {
         passwordField : 'password',
         passReqToCallback : true // allows us to pass back the entire request to the callback
     },
-    function(req, email, password, done) {
 
+    function(req, email, password, done) {
 		// find a user whose email is the same as the forms email
 		// we are checking to see if the user trying to login already exists
         User.findOne({ 'local.email' :  email }, function(err, user) {
