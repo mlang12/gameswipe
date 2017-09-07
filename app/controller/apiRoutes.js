@@ -10,7 +10,7 @@ function isLoggedIn(req, res, next) {
 	if (req.isAuthenticated())
 		return next();
 	// if they aren't redirect them to the home page
-	res.redirect('/');
+	res.json({"auth": false});
 }
 
 function routes(app, passport) {
@@ -34,14 +34,14 @@ function routes(app, passport) {
 	// process the login form
 	app.post('/login', passport.authenticate('local-login', {
 		successRedirect : '/profile', // redirect to the secure profile section
-		failureRedirect : '/login', // redirect back to the signup page if there is an error
+		failureRedirect : '/failLogin', // redirect back to the signup page if there is an error
 		failureFlash : true // allow flash messages
 	}));
 
 	// process the signup form
 	app.post('/signup', passport.authenticate('local-signup', {
 		successRedirect : '/profile', // redirect to the secure profile section
-		failureRedirect : '/signup', // redirect back to the signup page if there is an error
+		failureRedirect : '/failLogin', // redirect back to the signup page if there is an error
 		failureFlash : true // allow flash messages
 	}));
 
@@ -79,6 +79,19 @@ function routes(app, passport) {
       console.log('thelogindata', data.local)
       res.send(data);
     })
+  });
+
+  app.get('/checksess', function(req,res) {
+    console.log('<<<<<<<<', req.isAuthenticated())
+    if (req.isAuthenticated()) {
+      res.json({ "auth": true });
+    } else {
+      res.json({ "auth": false });
+    }
+  });
+
+  app.get('/faillogin', function(req,res) {
+    res.json({ "auth": false });
   });
 }
 

@@ -32,6 +32,20 @@ var helpers = {
         console.log(error)
         return error;
       })
+  },
+
+  checkAuth: function() {
+    return axios.get('/checksess', {
+      withCredentials: true
+    }).then(function(response) {
+      if (response) {
+        return response;
+      } else {
+        return false;
+      }
+    }).catch(function(err) {
+      return err;
+    })
   }
 }
 

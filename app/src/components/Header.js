@@ -9,7 +9,7 @@ class Header extends Component {
 
   render() {
     function Greeting(props) {
-      const isLoggedIn = props.isLoggedIn;
+      const isLoggedIn = props.isAuth;
       if (isLoggedIn) {
         return <UserHeader/>;
       }
