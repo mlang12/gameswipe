@@ -4,12 +4,9 @@ import Profile from './components/Profile.js';
 import Signin from './components/Signin.js';
 import Signup from './components/Signup.js';
 import Header from './components/Header.js';
-<<<<<<< HEAD
 import Footer from './components/Footer.js';
-=======
 import Liked from './components/Liked.js';
 import Filters from './components/Filters.js';
->>>>>>> 358f63a4a07d84b9cc817282f1f442598195c8a9
 import Gameview from './components/Gameview.js';
 import logo from './logo.svg';
 import './App.css';
