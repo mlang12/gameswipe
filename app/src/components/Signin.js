@@ -26,6 +26,8 @@ class Signin extends Component {
       if(response.data._id !== undefined) {
         _this.setState({
           id: response.data._id
+        }, () => {
+          this.props.isAuth();
         });
       } else {
         console.log('Failed to login.');
@@ -35,7 +37,7 @@ class Signin extends Component {
 
   render() {
     if (this.state.id !== null) {
-      return <Redirect push to="/profile" />;
+      return <Redirect to="/profile" />;
     } else {
       return (
         <div className="signin">
