@@ -45,10 +45,11 @@ body {
 .gameTile {
   width: 569px;
   height: 320px;
-  margin-top: 4%;
+  margin-top: 7%;
   text-align: center;
   box-shadow: 3px 3px 10px darkslategray;
   background-size: cover;
+  margin-left: 24%;
   /*background-attachment: fixed;*/
 }
 
@@ -76,5 +77,12 @@ body {
   color: darkslategrey;
   -webkit-transition: color .3s; /* Safari */
   transition: color .3s;
+}
+
+.footer {
+  padding: 35px;
+  bottom: 0;
+  margin-top: 40px;
+  color: white;
 }
 
