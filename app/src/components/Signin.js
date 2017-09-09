@@ -34,7 +34,7 @@ class Signin extends Component {
 
   render() {
     if (this.props.isAuth === true) {
-      return <Redirect to="/profile" />;
+      return <Redirect to="/swipe" />;
     } else {
       return (
         <div className="signin">

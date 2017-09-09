@@ -76,7 +76,9 @@ class App extends Component {
           <PrivateRoute exact path='/likes' component={Liked} />
           <PrivateRoute exact path='/filters' component={Filters} />
           <PrivateRoute exact path='/swipe' component={Swipe} />
-          <PrivateRoute exact path='/logout' component={Logout} />
+          <Route exact path='/logout' render={(props) => (
+            <Logout {...props} setAuth={this.setAuthState}/>
+          )}/>
         </Switch>
         <div className="footerArea">
           <Footer/> 

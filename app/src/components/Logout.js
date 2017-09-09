@@ -1,13 +1,17 @@
 import React, { Component } from 'react';
-import { Switch, Route, Router, Link, Redirect, withRouter } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
+import helpers from '../utils/helpers.js';
 
-class Logout extends Component {
-  
-  componentDidMount() {
-    
+class Logout extends Component {  
+  componentWillMount() {
+    const _this = this;
+    helpers.logout().then(function(response) {
+      _this.props.setAuth(false);
+    });
   }
+
   render() {
-    return 
+    return <Redirect to="/" />;
   }
 }
 

@@ -23,7 +23,6 @@ var helpers = {
   },
   
   signUp: function(creds) {
-    console.log(creds)
     return axios.post('/signup', creds)
       .then(function (response){
         return response;
@@ -33,6 +32,21 @@ var helpers = {
         return error;
       })
   },
+
+  logout: function(creds) {
+    return axios.get('/logout', {
+      withCredentials: true
+    }).then(function(response) {
+      if (response) {
+        return response;
+      } else {
+        return true;
+      }
+    }).catch(function(err) {
+      return err;
+    })
+  },
+  
 
   checkAuth: function() {
     return axios.get('/checksess', {
