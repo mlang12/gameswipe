@@ -8,6 +8,8 @@ import Footer from './components/Footer.js';
 import Liked from './components/Liked.js';
 import Filters from './components/Filters.js';
 import Gameview from './components/Gameview.js';
+import Swipe from './components/Swipe.js';
+import Logout from './components/Logout.js';
 import logo from './logo.svg';
 import './App.css';
 import helpers from './utils/helpers.js'
@@ -31,20 +33,19 @@ class App extends Component {
 
   render() {
     const _this = this;
-    function isAuth() {
-      helpers.checkAuth().then(function(response) {
-        if (response.data !== undefined) {
-          if (response.data.auth !== undefined) {
-            _this.setAuthState(response.data.auth);
-          }
-        }  else {
-          _this.setAuthState(false);
-        }
-      });
-    }
+    // function isAuth() {
+    //   // helpers.checkAuth().then(function(response) {
+    //   //   if (response.data !== undefined) {
+    //   //     if (response.data.auth !== undefined) {
+    //   //       _this.setAuthState(response.data.auth);
+    //   //     }
+    //   //   }  else {
+    //   //     _this.setAuthState(false);
+    //   //   }
+    //   // });
+    // }
 
     const PrivateRoute = ({ component: Component, ...rest }) => {
-      console.log('Composing private route', Component, rest);
       return (<Route {...rest} render={props => (
         _this.state.authState ? (
           <Component {...props}/>
@@ -64,21 +65,21 @@ class App extends Component {
         </div>
         <Switch>
           <Route exact path='/' component={Home}/>
-
-          <Route exact path='/signup' render={(props) => (
-            <Signup {...props} isAuth={isAuth}/>
-          )}/>
-          <PrivateRoute exact path='/profile' component={Profile} />
-          <PrivateRoute exact path='/likes' component={Liked} />
-          <Route exact path='/filters' component={Filters} />
-
           <Route path="/gameview" component={Gameview} />
-          <Route exact path='/signin' render={(props) => (
-            <Signin {...props} isAuth={isAuth}/>
+          <Route exact path='/signup' render={(props) => (
+            <Signup {...props} setAuth={this.setAuthState} isAuth={this.state.authState}/>
           )}/>
+          <Route exact path='/signin' render={(props) => (
+            <Signin {...props} setAuth={this.setAuthState} isAuth={this.state.authState}/>
+          )}/>
+          
+          <PrivateRoute exact path='/likes' component={Liked} />
+          <PrivateRoute exact path='/filters' component={Filters} />
+          <PrivateRoute exact path='/swipe' component={Swipe} />
+          <PrivateRoute exact path='/logout' component={Logout} />
         </Switch>
         <div className="footerArea">
-          <Footer isAuth={this.state.authState}/> 
+          <Footer/> 
         </div>
       </div>
     );

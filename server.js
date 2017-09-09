@@ -8,29 +8,35 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
 var dbConfig = require('./app/config/database.js');
+var LocalStrategy = require('passport-local').Strategy;
 
 var PORT = process.env.PORT || 3100;
-
-mongoose.connect(dbConfig.url); // connect to our database
 
 require('./app/config/passport')(passport); // pass passport for configuration
 
 // set up our express application
-app.use(morgan('dev')); // log every request to the console
-app.use(cookieParser()); // read cookies (needed for auth)
-app.use(bodyParser.json()); // get information from html forms
-app.use(bodyParser.urlencoded({ extended: true }));
-
-// required for passport
-app.use(session({
-    secret: 'gameswipeisthebestever', // session secret
-    resave: true,
-    saveUninitialized: true
+app.use(morgan('dev'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: false}));
+app.use(cookieParser());
+app.use(require('express-session')({
+		secret: 'keyboard cat',
+		resave: false,
+		saveUninitialized: false
 }));
 
+// Configure passport middleware
 app.use(passport.initialize());
-app.use(passport.session());
 app.use(flash());
+app.use(passport.session()); 
+
+// required for passport
+const User = require('./app/model/User.js');
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
+mongoose.connect(dbConfig.url); // connect to database
 
 require('./app/controller/apiRoutes.js')(app, passport);
 

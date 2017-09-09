@@ -12,7 +12,7 @@ var helpers = {
   },
 
   signIn: function(creds) {
-    return axios.post('/login', creds)
+    return axios.post('/signin', creds)
       .then(function (response){
         return response;
       })

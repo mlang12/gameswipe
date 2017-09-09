@@ -1,3 +1,3 @@
 module.exports = {
-  url: "mongodb://localhost:gameswipe/"
+  url: "mongodb://localhost/gameswipe"
 }

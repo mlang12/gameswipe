@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-
+import { Switch, Route, Router, Link, Redirect, withRouter } from 'react-router-dom';
 class GuestHeader extends Component {
   render() {
     return (
       <span className="headerMenu">
-        <a href="/signin" className="menuItem">Login</a>
-        <a href="/signup" className="menuItem">Sign-Up</a>
+        <Link to="/signin" className="menuItem">Login</Link>
+        <Link to="/signup" className="menuItem">Sign-Up</Link>
       </span>
     );
   }

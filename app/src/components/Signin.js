@@ -23,20 +23,17 @@ class Signin extends Component {
     event.preventDefault();
     // const setAuth = this.props.setAuth
     helpers.signIn(this.state).then(function(response) {
-      if(response.data._id !== undefined) {
-        _this.setState({
-          id: response.data._id
-        }, () => {
-          this.props.isAuth();
-        });
+      if(response.data !== undefined) {
+        _this.props.setAuth(true);
       } else {
+        _this.props.setAuth(false);
         console.log('Failed to login.');
       }
     });
   }
 
   render() {
-    if (this.state.id !== null) {
+    if (this.props.isAuth === true) {
       return <Redirect to="/profile" />;
     } else {
       return (

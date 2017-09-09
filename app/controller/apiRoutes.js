@@ -32,18 +32,57 @@ function routes(app, passport) {
   });
 
 	// process the login form
-	app.post('/login', passport.authenticate('local-login', {
-		successRedirect : '/profile', // redirect to the secure profile section
-		failureRedirect : '/failLogin', // redirect back to the signup page if there is an error
-		failureFlash : true // allow flash messages
-	}));
+	// app.post('/login', passport.authenticate('local-login', {
+	// 	successRedirect : '/profile', // redirect to the secure profile section
+	// 	failureRedirect : '/failLogin', // redirect back to the signup page if there is an error
+	// 	failureFlash : true // allow flash messages
+	// }));
 
+  app.post('/signin', passport.authenticate('local', { failureRedirect: '/?error=LoginError', failureFlash: true }), (req, res, next) => {
+      req.session.save((err) => {
+          if (err) {
+              return next(err);
+          }
+
+          res.status(200).send('OK');
+      });
+  });
 	// process the signup form
-	app.post('/signup', passport.authenticate('local-signup', {
-		successRedirect : '/profile', // redirect to the secure profile section
-		failureRedirect : '/failLogin', // redirect back to the signup page if there is an error
-		failureFlash : true // allow flash messages
-	}));
+	// app.post('/signup', passport.authenticate('local-signup', {
+	// 	successRedirect : '/profile', // redirect to the secure profile section
+	// 	failureRedirect : '/failLogin', // redirect back to the signup page if there is an error
+	// 	failureFlash : true // allow flash messages
+	// }));
+
+  app.post('/signup', (req, res, next) => {
+		User.register(new User({ username : req.body.username }), req.body.password, (err, account) => {
+				if (err) {
+					console.log(err)
+          return res.status(500).send({ error : err.message });
+				}
+
+				passport.authenticate('local')(req, res, () => {
+						req.session.save((err) => {
+								if (err) {
+										return next(err);
+								}
+
+								res.status(200).send('OK');
+						});
+				});
+		});
+});
+
+  // Logout from passport
+  app.get('/logout', (req, res, next) => {
+		req.logout();
+		req.session.save((err) => {
+      if (err) {
+        return next(err);
+      }
+      res.status(200).send('OK');
+		});
+  });
 
   app.get('/api/getGenre', function(req, res){
     var genreId = req.params.id;
@@ -82,11 +121,16 @@ function routes(app, passport) {
   });
 
   app.get('/checksess', function(req,res) {
-    console.log('<<<<<<<<', req.isAuthenticated())
-    if (req.isAuthenticated()) {
-      res.json({ "auth": true });
+    if(req.user) {
+      return res.status(200).json({
+        user: req.user,
+        authenticated: true
+      });
     } else {
-      res.json({ "auth": false });
+      return res.status(401).json({
+        error: 'User is not authenticated',
+        authenticated: false
+      });
     }
   });
 
