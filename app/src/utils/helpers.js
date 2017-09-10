@@ -33,6 +33,7 @@ var helpers = {
       })
   },
 
+  // Route to log user out of passport
   logout: function(creds) {
     return axios.get('/logout', {
       withCredentials: true
@@ -47,6 +48,20 @@ var helpers = {
     })
   },
   
+  // Route to get all the details of 1 game from the idb api
+  getGameDetails: function(rte){
+    return axios.get(rte, {
+      withCredentials: true
+    }).then(function(response) {
+      if (response) {
+        return response;
+      } else {
+        return false;
+      }
+    }).catch(function(err) {
+      return err;
+    })
+  },
 
   checkAuth: function() {
     return axios.get('/checksess', {

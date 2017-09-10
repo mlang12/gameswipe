@@ -19,59 +19,46 @@ function routes(app, passport) {
   app.get("/api/landing", function(req, res) {
     randomStart = Math.floor(Math.random()*5000);
     client.games({
-      fields: ['name','cover', 'release_dates'], // Return all fields
+      fields: ['id','name','cover', 'genres', 'summary', 'total_rating', 'release_dates'], // Return all fields
       limit: 50, // Limit to 5 results
       offset: randomStart // Index offset for results
     }).then(response => {
-      let cleanResponse = utils.replacePics('screenshot_med', response);
-      utils.sendRes(res, utils.clearResponseOfEmpty('cover', cleanResponse));
-      // res.send(cleanResponse);
+      let cleanResponse = utils.replacePics('screenshot_med', response); // Replace picture sizes
+      cleanResponse = utils.populateGenres(cleanResponse); // Get Genre names for each game
+      cleanResponse = utils.populatePlatforms(cleanResponse); // Get platform info for each game
+      cleanResponse = utils.addMiniView(cleanResponse); // Adds a mini category to the results for display on gametile
+      utils.sendRes(res, utils.clearResponseOfEmpty('cover', cleanResponse)); // Only display games with a cover
     }).catch(error => {
       throw error;
     });
   });
 
-	// process the login form
-	// app.post('/login', passport.authenticate('local-login', {
-	// 	successRedirect : '/profile', // redirect to the secure profile section
-	// 	failureRedirect : '/failLogin', // redirect back to the signup page if there is an error
-	// 	failureFlash : true // allow flash messages
-	// }));
-
   app.post('/signin', passport.authenticate('local', { failureRedirect: '/?error=LoginError', failureFlash: true }), (req, res, next) => {
       req.session.save((err) => {
           if (err) {
-              return next(err);
+            return next(err);
           }
-
           res.status(200).send('OK');
       });
   });
-	// process the signup form
-	// app.post('/signup', passport.authenticate('local-signup', {
-	// 	successRedirect : '/profile', // redirect to the secure profile section
-	// 	failureRedirect : '/failLogin', // redirect back to the signup page if there is an error
-	// 	failureFlash : true // allow flash messages
-	// }));
 
   app.post('/signup', (req, res, next) => {
 		User.register(new User({ username : req.body.username }), req.body.password, (err, account) => {
 				if (err) {
-					console.log(err)
+					console.log("@@@@@@@@@@",err)
           return res.status(500).send({ error : err.message });
 				}
 
 				passport.authenticate('local')(req, res, () => {
 						req.session.save((err) => {
-								if (err) {
-										return next(err);
-								}
-
-								res.status(200).send('OK');
+              if (err) {
+                return next(err);
+              }
+              res.status(200).send('OK');
 						});
 				});
 		});
-});
+  });
 
   // Logout from passport
   app.get('/logout', (req, res, next) => {
@@ -84,41 +71,41 @@ function routes(app, passport) {
 		});
   });
 
-  app.get('/api/getGenre', function(req, res){
-    var genreId = req.params.id;
-    client.genres({
-      fields:['name', 'id'],
-      limit: 50,
-    }).then(response => {
-      console.log(response.body.length)
-      res.send(response);
-    }).catch(error => {
-      throw error;
-    });
-  });
+  // app.get('/api/getGenre', function(req, res){
+  //   var genreId = req.params.id;
+  //   client.genres({
+  //     fields:['name', 'id'],
+  //     limit: 50,
+  //   }).then(response => {
+  //     console.log(response.body.length)
+  //     res.send(response);
+  //   }).catch(error => {
+  //     throw error;
+  //   });
+  // });
 
-  app.get('/api/getPlatform', function(req, res){
-    client.platforms({
-      fields: ['id', 'name'], // Return all fields
-      limit: 50,
-      offset: 0 // Index offset for results
-    }).then(response => {
-      console.log(response.body.length)
-      res.send(response);
-    }).catch(error => {
-      throw error;
-    });
-  });
+  // app.get('/api/getPlatform', function(req, res){
+  //   client.platforms({
+  //     fields: ['id', 'name'], // Return all fields
+  //     limit: 50,
+  //     offset: 0 // Index offset for results
+  //   }).then(response => {
+  //     console.log(response.body.length)
+  //     res.send(response);
+  //   }).catch(error => {
+  //     throw error;
+  //   });
+  // });
 
-  app.get('/profile', isLoggedIn, function(req,res) {
-    User.findOne({
-      email: req.body.email
-    }).then(function(data){
-      data.local.password = null;
-      console.log('thelogindata', data.local)
-      res.send(data);
-    })
-  });
+  // app.get('/profile', isLoggedIn, function(req,res) {
+  //   User.findOne({
+  //     email: req.body.email
+  //   }).then(function(data){
+  //     data.local.password = null;
+  //     console.log('thelogindata', data.local)
+  //     res.send(data);
+  //   })
+  // });
 
   app.get('/checksess', function(req,res) {
     if(req.user) {
@@ -134,8 +121,31 @@ function routes(app, passport) {
     }
   });
 
-  app.get('/faillogin', function(req,res) {
-    res.json({ "auth": false });
+  app.get('/gameview/:id', function (req,res){
+    const gameId = req.params.id;
+    client.games({
+      fields: "*",
+      ids: [gameId]
+    }).then(response => {
+      let cleanResponse = utils.replacePics('screenshot_big', response); // Replace picture sizes
+      cleanResponse = utils.populateGenres(cleanResponse); // Get Genre names for each game
+      utils.sendRes(res, utils.populatePlatforms(cleanResponse));
+    }).catch(error => {
+      throw error;
+    });
+  });
+
+  app.get('/swipe', function(req,res) {
+    if(req.user) {
+      User.findOne({
+        username: req.user
+      }).then(function(data){
+        res.send(data);
+      });
+    } else {
+      // send false status if user not signed in
+      res.json({'status': false })
+    }
   });
 }
 

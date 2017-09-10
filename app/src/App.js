@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import Home from './components/Home.js';
-import Profile from './components/Profile.js';
 import Signin from './components/Signin.js';
 import Signup from './components/Signup.js';
 import Header from './components/Header.js';
@@ -10,10 +9,9 @@ import Filters from './components/Filters.js';
 import Gameview from './components/Gameview.js';
 import Swipe from './components/Swipe.js';
 import Logout from './components/Logout.js';
-import logo from './logo.svg';
 import './App.css';
-import helpers from './utils/helpers.js'
-import { Switch, Route, Router, Link, Redirect, withRouter } from 'react-router-dom';
+// import helpers from './utils/helpers.js'
+import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 
 class App extends Component {
   constructor(props) {

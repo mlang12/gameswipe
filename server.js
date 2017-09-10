@@ -12,7 +12,7 @@ var LocalStrategy = require('passport-local').Strategy;
 
 var PORT = process.env.PORT || 3100;
 
-require('./app/config/passport')(passport); // pass passport for configuration
+// require('./app/config/passport')(passport); // pass passport for configuration
 
 // set up our express application
 app.use(morgan('dev'));

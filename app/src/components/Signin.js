@@ -6,9 +6,6 @@ class Signin extends Component {
     constructor(props) {
     super(props);
 
-    this.state = {
-      id: null
-    };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
@@ -23,7 +20,8 @@ class Signin extends Component {
     event.preventDefault();
     // const setAuth = this.props.setAuth
     helpers.signIn(this.state).then(function(response) {
-      if(response.data !== undefined) {
+      console.log('response after signin: ', response);
+      if(response.request.responseURL !== undefined) {
         _this.props.setAuth(true);
       } else {
         _this.props.setAuth(false);
@@ -40,7 +38,7 @@ class Signin extends Component {
         <div className="signin">
           <form className="form-signin col-md-4 offset-md-4" onSubmit={this.handleSubmit}>       
             <h2 className="form-signin-heading">Please login</h2>
-            <input type="text" className="form-control" name="email" onChange={this.handleChange} placeholder="Email..."/>
+            <input type="text" className="form-control" name="username" onChange={this.handleChange} placeholder="Username..."/>
             <input type="password" className="form-control" name="password" onChange={this.handleChange} placeholder="Password..."/>
             <button className="btn btn-lg btn-primary btn-block">Login</button>   
           </form>

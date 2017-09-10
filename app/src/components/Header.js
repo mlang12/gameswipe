@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import UserHeader from './UserHeader.js';
 import GuestHeader from './GuestHeader.js';
-import { Switch, Route, Router, Link, Redirect, withRouter } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 class Header extends Component {
   constructor(props) {
