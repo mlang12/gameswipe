@@ -21,7 +21,8 @@ class Signup extends Component {
     const _this = this;
     helpers.signUp(this.state).then(function(data) {
       if (data) {
-        if (data.data === 'OK'){
+        if (data.data !== undefined){
+          console.log(data)
           _this.props.setAuth(true);
         } else {
           _this.setState({
@@ -36,8 +37,7 @@ class Signup extends Component {
   }
 
   render() {
-    if (this.props.authState === true) {
-      console.log(this.props.authState)
+    if (this.props.isAuth === true) {
       return <Redirect to="/likes" />;
     } else {
       return (

@@ -38,14 +38,18 @@ function routes(app, passport) {
           if (err) {
             return next(err);
           }
-          res.status(200).send('OK');
+          const un = req.body.username;
+          User.find({
+            username: un
+          }).then(data => {
+            res.status(200).send(data);
+          })
       });
   });
 
   app.post('/signup', (req, res, next) => {
 		User.register(new User({ username : req.body.username }), req.body.password, (err, account) => {
 				if (err) {
-					console.log("@@@@@@@@@@",err)
           return res.status(500).send({ error : err.message });
 				}
 
@@ -54,7 +58,15 @@ function routes(app, passport) {
               if (err) {
                 return next(err);
               }
-              res.status(200).send('OK');
+              
+              const un = req.body.username;
+              User.find({
+                username: un
+              }).then(data => {
+                res.status(200).send(data);
+              }).catch(err => {
+                console.log(err);
+              })
 						});
 				});
 		});
@@ -70,42 +82,6 @@ function routes(app, passport) {
       res.status(200).send('OK');
 		});
   });
-
-  // app.get('/api/getGenre', function(req, res){
-  //   var genreId = req.params.id;
-  //   client.genres({
-  //     fields:['name', 'id'],
-  //     limit: 50,
-  //   }).then(response => {
-  //     console.log(response.body.length)
-  //     res.send(response);
-  //   }).catch(error => {
-  //     throw error;
-  //   });
-  // });
-
-  // app.get('/api/getPlatform', function(req, res){
-  //   client.platforms({
-  //     fields: ['id', 'name'], // Return all fields
-  //     limit: 50,
-  //     offset: 0 // Index offset for results
-  //   }).then(response => {
-  //     console.log(response.body.length)
-  //     res.send(response);
-  //   }).catch(error => {
-  //     throw error;
-  //   });
-  // });
-
-  // app.get('/profile', isLoggedIn, function(req,res) {
-  //   User.findOne({
-  //     email: req.body.email
-  //   }).then(function(data){
-  //     data.local.password = null;
-  //     console.log('thelogindata', data.local)
-  //     res.send(data);
-  //   })
-  // });
 
   app.get('/checksess', function(req,res) {
     if(req.user) {
