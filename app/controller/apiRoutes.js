@@ -97,6 +97,22 @@ function routes(app, passport) {
     }
   });
 
+  app.get('/getuserinfo', function(req,res) {
+    const usr = req.user;
+    if (usr !== undefined) {
+      console.log('>>>>>>', usr);
+      User.find({
+        username: usr.username
+      }).then(data => {
+        res.status(200).send(data);
+      }).catch(data => {
+        res.status(500).send(data);
+      });
+    } else {
+      res.status(500).send({auth: false});
+    }
+  });
+
   app.get('/gameview/:id', function (req,res){
     const gameId = req.params.id;
     client.games({

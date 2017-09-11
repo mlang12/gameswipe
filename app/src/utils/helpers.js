@@ -63,6 +63,20 @@ var helpers = {
     })
   },
 
+  getUserInfo: function(){
+    return axios.get('/getuserinfo', {
+      withCredentials: true
+    }).then(function(response) {
+      if (response) {
+        return response;
+      } else {
+        return false;
+      }
+    }).catch(function(err) {
+      return err;
+    })
+  },
+
   checkAuth: function() {
     return axios.get('/checksess', {
       withCredentials: true
