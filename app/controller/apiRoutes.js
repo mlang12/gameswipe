@@ -3,6 +3,7 @@ const key = require('../keys').key;
 const client = igdb(key);
 const utils = require('./util.js');
 const User = require('../model/User.js');
+const plats = require('../config/platforms.json').platforms
 
   // route middleware to make sure
 function isLoggedIn(req, res, next) {
@@ -17,12 +18,16 @@ function routes(app, passport) {
   //Function to get the basic landing tiles
   var randomStart;
   app.get("/api/landing", function(req, res) {
-    randomStart = Math.floor(Math.random()*5000);
+    randomStart = Math.floor(Math.random()*9900);
     client.games({
-      fields: ['id','name','cover', 'genres', 'summary', 'total_rating', 'release_dates'], // Return all fields
+      filters: {
+        "summary.exists": true
+      },
+      categories: [0, 2, 4],
       limit: 50, // Limit to 5 results
       offset: randomStart // Index offset for results
-    }).then(response => {
+    }, ['id','name','cover', 'genres', 'summary', 'total_rating', 'release_dates']).then(response => {
+      console.log(response)
       let cleanResponse = utils.replacePics('screenshot_med', response); // Replace picture sizes
       cleanResponse = utils.populateGenres(cleanResponse); // Get Genre names for each game
       cleanResponse = utils.populatePlatforms(cleanResponse); // Get platform info for each game
@@ -32,6 +37,10 @@ function routes(app, passport) {
       throw error;
     });
   });
+
+  app.get('/count', (req, res) => {
+    client.games()
+  })
 
   app.post('/signin', passport.authenticate('local', { failureRedirect: '/?error=LoginError', failureFlash: true }), (req, res, next) => {
       req.session.save((err) => {
@@ -100,7 +109,6 @@ function routes(app, passport) {
   app.get('/getuserinfo', function(req,res) {
     const usr = req.user;
     if (usr !== undefined) {
-      console.log('>>>>>>', usr);
       User.find({
         username: usr.username
       }).then(data => {
@@ -109,7 +117,7 @@ function routes(app, passport) {
         res.status(500).send(data);
       });
     } else {
-      res.status(500).send({auth: false});
+      res.status(401).json({'auth': false});
     }
   });
 
@@ -127,18 +135,102 @@ function routes(app, passport) {
     });
   });
 
+  // Gets the initial data load when user lands on swipe
   app.get('/swipe', function(req,res) {
     if(req.user) {
-      User.findOne({
-        username: req.user
+      const usr = req.user;
+      console.log(usr)
+      const seenGames = usr.like.concat(usr.dontlike);
+      const plats = usr.profile.systems;
+      const genres = usr.profile.genres;
+
+      // Get all games by platform
+      client.platforms({
+        "ids": plats,
+        fields: "*",
+        limit: 50
+      }).then(function(gamesByPlatform){
+        // Get all games by genre
+        client.genres({
+          fields: "*",
+          limit: 50
+        }).then(function(genreData){
+          // Send all games, and user profile info to helper and 
+          // Callback to send response to user
+          utils.userSwipes(seenGames, plats, genres, gamesByPlatform.body, genreData.body, res, utils.sendRes);
+        });
+      });
+      // res.status(200).send("OK");
+    } else {
+      // send false status if user not signed in
+      res.status(401).json({'auth': false })
+    }
+  });
+
+  // Gets all platforms which contain every game id in that platform
+  app.get('/platgames', function(req,res) {
+    // if(req.user) {
+      client.platforms({
+        "ids": plats,
+        fields: "*",
+        limit: 50
+      }).then(function(data){
+        res.send(data);
+      });
+    // } else {
+    //   // send false status if user not signed in
+    //   res.status(401).json({'auth': false })
+    // }
+  });
+  
+  // Gets all genres which contain every game id in that genre
+  app.get('/genregames', function(req,res) {
+    if(req.user) {
+      client.genres({
+        fields: "*",
+        limit: 50
       }).then(function(data){
         res.send(data);
       });
     } else {
       // send false status if user not signed in
-      res.json({'status': false })
+      res.status(401).json({'auth': false })
     }
   });
+
+  // Add to the user's liked games list
+  app.post('/api/addToLike', function(req, res) {
+    if(req.user) {
+      User.findOneandUpdate({
+        username: req.user.username
+      }, {
+        like: req.body.like
+      }).then(function(data){
+        console.log('Adding to likes: ', data);
+        res.send(data);
+      });
+    } else {
+      // send false status if user not signed in
+      res.status(401).json({'auth': false })
+    }
+  });
+
+  // Add to the user's disliked games list
+  app.post('/api/addTodisLike', function(req, res) {
+    if(req.user) {
+      User.findOneandUpdate({
+        username: req.user.username
+      }, {
+        dislike: req.body.like
+      }).then(function(data){
+        console.log('Adding to dislikes: ', data);
+        res.send(data);
+      });
+    } else {
+      // send false status if user not signed in
+      res.status(401).json({'auth': false })
+    }
+  })
 }
 
 module.exports = routes;

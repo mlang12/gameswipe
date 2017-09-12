@@ -1,22 +1,42 @@
 import React, { Component } from 'react';
-import { Switch, Route, Router, Link, Redirect, withRouter } from 'react-router-dom';
+// import { Switch, Route, Router, Link, Redirect, withRouter } from 'react-router-dom';
+import Loading from './Loading.js';
+import SwipeComp from './SwipeComp.js';
+import helpers from '../utils/helpers.js';
+
 class Swipe extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      games: null
+    };
+  }
+
+  componentDidMount(){
+    const _this = this;
+    helpers.getSwipeContent().then(function(data) {
+      console.log('onmount: ',data);
+      // _this.setState({
+      //   games: data.data.body
+      // });
+    }); 
+  }
+
   render() {
-    return (
-      <div className="row swipeHolder">
-        <div className="col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1">
-          
+    if(this.state && this.state.games === null) {
+      return (
+        <div className="row">
+          <h2> Please wait while new games populate... </h2>
+          <Loading />
         </div>
-
-        <div className="col-xs-10 col-sm-10 col-md-10 col-lg-10 col-xl-10">
-          
+      );
+    } else {
+      return (
+        <div className="row swipeHolder">
+          <SwipeComp items={this.state.games} />
         </div>
-
-        <div className="col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1">
-          
-        </div>
-      </div>
-    );
+      );
+    }
   }
 }
 

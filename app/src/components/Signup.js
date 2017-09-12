@@ -41,8 +41,8 @@ class Signup extends Component {
       return <Redirect to="/likes" />;
     } else {
       return (
-        <div className="signup">
-          <form className="form-signup col-md-4 offset-md-4" onSubmit={this.handleSubmit}>       
+        <div className="signup formWrapper">
+          <form className="form-signup" onSubmit={this.handleSubmit}>       
             <h2 className="form-signup-heading">Please fill in the fields below</h2>
             <input type="text" className="form-control" name="username" onChange={this.handleChange} placeholder="Username..."/>
             <input type="text" className="form-control" name="email" onChange={this.handleChange} placeholder="Email..."/>

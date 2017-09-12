@@ -81,9 +81,17 @@ const utils = {
     return cleanedObj;
   },
 
+  // This function will accept a string and shorten it to 
+  // a specified number of characters. If type is specified
+  // and the string is undefined it will return that none
+  // of that type were found.
   shortenStringToCharLen(stringToShorten, numChars, type) {
     if(stringToShorten === undefined) {
-      return "No " + type + " Found..."
+      if (type) {
+        return "No " + type + " Found..."
+      } else {
+        return "None Found..."
+      }
     } else {
       return stringToShorten.slice(0, numChars) + "...";
     }    
@@ -100,6 +108,61 @@ const utils = {
       };
     });
     return cleanedObj;
+  },
+
+  // Accepts 2 arrays and compares them and returns
+  // an array filled with values that are present in both
+  // arr1 and arr2. If no matches will return empty array
+  // Example: 
+  //  arr1 = [1,2,3]
+  //  arr2 = [3,4,5]
+  //  will return [3] 
+  findCommmonGameIds(arr1, arr2) {
+    let combinedArr = [];
+
+    arr1.forEach(item => {
+      if (arr2.indexOf(item) > -1) {
+        combinedArr.push(item);
+      }
+    });
+    return combinedArr;
+  },
+
+  getGamesInCategories(userPrefs, categoryData) {
+    let filteredData = [];
+
+    // If the user has no prefs then user everything
+    if (!userPrefs || userPrefs.length === 0) {
+      categoryData.forEach(item => {
+        filteredData = filteredData.concat(item.games)
+      });
+
+    // Otherwise only take games from categories in user prefs
+    } else {
+      userPrefs.forEach(pref => { 
+        categoryData.forEach(item => {
+          if (item.id === pref) {
+            filteredData = filteredData.concat(item.games);
+          }
+        });
+      });
+    }
+
+    return filteredData;
+  },
+
+  userSwipes(seenGames, plats, genres, gamesByPlatform, genreData, res, cb) {
+    const gamesInUserPlatformRange = this.getGamesInCategories(plats, gamesByPlatform);
+    console.log("gamesInUserPlatformRange", gamesInUserPlatformRange[0]);
+    const gamesInUserGenreRange = this.getGamesInCategories(genres, genreData);
+    console.log("gamesInUserGenreRange", gamesInUserGenreRange[0]);
+    const combinedGames = this.findCommmonGameIds(gamesInUserGenreRange, gamesInUserPlatformRange);
+    console.log("combined", combinedGames[0])
+    const combinedGamesUnseen = combinedGames.filter(game => {
+      return seenGames.indexOf(game) < 0;
+    })
+    cb(res, combinedGamesUnseen);
   }
+
 }
 module.exports = utils;

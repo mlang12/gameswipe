@@ -35,8 +35,8 @@ class Signin extends Component {
       return <Redirect to="/swipe" />;
     } else {
       return (
-        <div className="signin">
-          <form className="form-signin col-md-4 offset-md-4" onSubmit={this.handleSubmit}>       
+        <div className="signin formWrapper">
+          <form className="form-signin" onSubmit={this.handleSubmit}>       
             <h2 className="form-signin-heading">Please login</h2>
             <input type="text" className="form-control" name="username" onChange={this.handleChange} placeholder="Username..."/>
             <input type="password" className="form-control" name="password" onChange={this.handleChange} placeholder="Password..."/>

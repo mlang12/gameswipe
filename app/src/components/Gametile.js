@@ -7,10 +7,6 @@ class Gametile extends Component {
   }
 
   render() {
-    // var picBackground = {
-    //   backgroundImage: 'url(' + this.props.result.cover.url + ')'
-    // }
-
     return (
       <div className="gameTile">
         <img className="gameTileImg" src={this.props.result.cover.url} />
