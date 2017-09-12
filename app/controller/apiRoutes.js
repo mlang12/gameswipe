@@ -160,16 +160,36 @@ function routes(app, passport) {
           utils.userSwipes(seenGames, plats, genres, gamesByPlatform.body, genreData.body, res, utils.sendRes);
         });
       });
-      // res.status(200).send("OK");
     } else {
       // send false status if user not signed in
       res.status(401).json({'auth': false })
     }
   });
 
+  // Gets the game details for swipe screen given an array of games
+  app.post('/swipeupdate', function(req, res) {
+    console.log(req)
+    client.games({
+      filters: {
+        "summary.exists": true
+      },
+      ids: req.body.ids,
+      limit: 50
+    }, ['id','name','cover', 'genres', 'summary', 'total_rating', 'release_dates']).then(response => {
+      console.log('THE RESPONSE:', response)
+      let cleanResponse = utils.replacePics('screenshot_med', response); // Replace picture sizes
+      cleanResponse = utils.populateGenres(cleanResponse); // Get Genre names for each game
+      cleanResponse = utils.populatePlatforms(cleanResponse); // Get platform info for each game
+      cleanResponse = utils.addMiniView(cleanResponse); // Adds a mini category to the results for display on gametile
+      utils.sendRes(res, utils.clearResponseOfEmpty('cover', cleanResponse)); // Only display games with a cover
+    }).catch(error => {
+      throw error;
+    });
+  });
+
   // Gets all platforms which contain every game id in that platform
   app.get('/platgames', function(req,res) {
-    // if(req.user) {
+    if(req.user) {
       client.platforms({
         "ids": plats,
         fields: "*",
@@ -177,10 +197,10 @@ function routes(app, passport) {
       }).then(function(data){
         res.send(data);
       });
-    // } else {
-    //   // send false status if user not signed in
-    //   res.status(401).json({'auth': false })
-    // }
+    } else {
+      // send false status if user not signed in
+      res.status(401).json({'auth': false })
+    }
   });
   
   // Gets all genres which contain every game id in that genre
@@ -230,7 +250,7 @@ function routes(app, passport) {
       // send false status if user not signed in
       res.status(401).json({'auth': false })
     }
-  })
+  });
 }
 
 module.exports = routes;

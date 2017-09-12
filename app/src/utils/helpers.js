@@ -124,7 +124,22 @@ var helpers = {
       }
     }).catch(function(err) {
       return err;
-    })
+    });
+  },
+
+  updateSwipe: function(ids) {
+
+    return axios.post('/swipeupdate', {ids:ids}, {
+      withCredentials: true
+    }).then(function(response) {
+      if (response) {
+        return response;
+      } else {
+        return false;
+      }
+    }).catch(function(err) {
+      return err;
+    });
   }
 
 }
