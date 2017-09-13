@@ -22,7 +22,6 @@ class Swipe extends Component {
     helpers.getSwipeContent().then(function(allGamedata) {
       const allGames = allGamedata.data;
       helpers.updateSwipe(allGames.slice(0,10)).then(function(fullDetail) {
-        console.log('fulldetail', fullDetail)
         _this.setState({
           gameDetails: fullDetail.data.body,
           games: allGames,
@@ -34,23 +33,24 @@ class Swipe extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (prevState.remainInCurrentSet <= 2) {
+    if (prevState.remainInCurrentSet <= 5) {
       const allGames = this.state.games;
       const offset = this.state.offset;
       const _this = this;
+      console.log('SENDING MORE GAMES')
       helpers.updateSwipe(allGames.slice(offset, offset + 10)).then(function(fullDetail) {
         _this.setState({
           gameDetails: _this.state.gameDetails.concat(fullDetail.data.body),
           offset: offset + 10,
-          remainInCurrentSet: _this.remainInCurrentSet + 10
+          remainInCurrentSet: _this.state.remainInCurrentSet + 10
         });
       });
     }
   }
 
   updateRemain(){
-    const _this = this;
     const remain = this.state.remainInCurrentSet;
+    console.log('updated remain: ', remain)
     this.setState({
       remainInCurrentSet: remain - 1
     });
@@ -67,7 +67,7 @@ class Swipe extends Component {
     } else {
       return (
         <div className="row swipeHolder">
-          <SwipeComp items={this.state.gameDetails} updateRemain={this.updateRemain} />
+          <SwipeComp items={this.state.gameDetails} updateRemain={this.updateRemain} remainInCurrent={this.state.remainInCurrentSet} />
         </div>
       );
     }

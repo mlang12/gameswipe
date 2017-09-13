@@ -28,7 +28,7 @@ function routes(app, passport) {
       offset: randomStart // Index offset for results
     }, ['id','name','cover', 'genres', 'summary', 'total_rating', 'release_dates']).then(response => {
       console.log(response)
-      let cleanResponse = utils.replacePics('screenshot_med', response); // Replace picture sizes
+      let cleanResponse = utils.replacePics('cover_big', response); // Replace picture sizes
       cleanResponse = utils.populateGenres(cleanResponse); // Get Genre names for each game
       cleanResponse = utils.populatePlatforms(cleanResponse); // Get platform info for each game
       cleanResponse = utils.addMiniView(cleanResponse); // Adds a mini category to the results for display on gametile
@@ -42,7 +42,7 @@ function routes(app, passport) {
     client.games()
   })
 
-  app.post('/signin', passport.authenticate('local', { failureRedirect: '/?error=LoginError', failureFlash: true }), (req, res, next) => {
+  app.post('/signin', passport.authenticate('local', { failureRedirect: '/LoginError', failureFlash: true }), (req, res, next) => {
       req.session.save((err) => {
           if (err) {
             return next(err);
@@ -56,10 +56,14 @@ function routes(app, passport) {
       });
   });
 
+  app.get('/LoginError', (req, res, ) => {
+    res.status(200).send(req.flash());
+  });
+
   app.post('/signup', (req, res, next) => {
 		User.register(new User({ username : req.body.username }), req.body.password, (err, account) => {
 				if (err) {
-          return res.status(500).send({ error : err.message });
+          return res.status(200).send({ error : err.message });
 				}
 
 				passport.authenticate('local')(req, res, () => {
@@ -139,8 +143,7 @@ function routes(app, passport) {
   app.get('/swipe', function(req,res) {
     if(req.user) {
       const usr = req.user;
-      console.log(usr)
-      const seenGames = usr.like.concat(usr.dontlike);
+      const seenGames = usr.seen;
       const plats = usr.profile.systems;
       const genres = usr.profile.genres;
 
@@ -168,7 +171,6 @@ function routes(app, passport) {
 
   // Gets the game details for swipe screen given an array of games
   app.post('/swipeupdate', function(req, res) {
-    console.log(req)
     client.games({
       filters: {
         "summary.exists": true
@@ -176,7 +178,6 @@ function routes(app, passport) {
       ids: req.body.ids,
       limit: 50
     }, ['id','name','cover', 'genres', 'summary', 'total_rating', 'release_dates']).then(response => {
-      console.log('THE RESPONSE:', response)
       let cleanResponse = utils.replacePics('screenshot_med', response); // Replace picture sizes
       cleanResponse = utils.populateGenres(cleanResponse); // Get Genre names for each game
       cleanResponse = utils.populatePlatforms(cleanResponse); // Get platform info for each game
@@ -221,12 +222,14 @@ function routes(app, passport) {
   // Add to the user's liked games list
   app.post('/api/addToLike', function(req, res) {
     if(req.user) {
-      User.findOneandUpdate({
+      User.findOneAndUpdate({
         username: req.user.username
       }, {
-        like: req.body.like
+        $push: {
+          like: req.body.ids,
+          seen: req.body.ids
+        }
       }).then(function(data){
-        console.log('Adding to likes: ', data);
         res.send(data);
       });
     } else {
@@ -238,13 +241,77 @@ function routes(app, passport) {
   // Add to the user's disliked games list
   app.post('/api/addTodisLike', function(req, res) {
     if(req.user) {
-      User.findOneandUpdate({
+      User.findOneAndUpdate({
         username: req.user.username
       }, {
-        dislike: req.body.like
+        $push: {
+          dontLike: req.body.ids,
+          seen: req.body.ids
+        }
       }).then(function(data){
-        console.log('Adding to dislikes: ', data);
         res.send(data);
+      });
+    } else {
+      // send false status if user not signed in
+      res.status(401).json({'auth': false })
+    }
+  });
+
+  app.post('/getLikedGames', function(req, res) {
+    if(req.user) {
+      User.find({
+        username: req.user.username
+      }).then(function(data){
+        if (data[0].like && data[0].like.length >= 1) {
+          console.log(data[0].like)
+          client.games({
+            fields: "*",
+            ids: [data[0].like]
+          }).then(response => {
+            let cleanResponse = utils.populateGenres(response); 
+            cleanResponse = utils.populatePlatforms(cleanResponse);
+            cleanResponse = utils.replacePics('logo_med', cleanResponse);
+            utils.sendRes(res, utils.addMiniView(cleanResponse));
+          }).catch(error => {
+            res.status(500).send(error);
+            throw error;
+          });
+        } else {
+          res.send([]);
+        }
+      });
+    } else {
+      // send false status if user not signed in
+      res.status(401).json({'auth': false })
+    }
+  });
+
+  app.post('/removeGameFromLikes', function(req,res){
+    if(req.user) {
+      User.findOneAndUpdate({
+        username: req.user.username
+      }, {
+        like: req.body.ids
+      }).then(function(data){
+        res.status(200).send("OK")
+      });
+    } else {
+      // send false status if user not signed in
+      res.status(401).json({'auth': false })
+    }
+  });
+
+  app.post('/setFilters', function(req,res){
+    if(req.user) {
+      User.findOneAndUpdate({
+        username: req.user.username
+      }, {
+        profile: {
+          systems: req.body.platforms,
+          genres: req.body.genres
+        }
+      }).then(function(data){
+        res.status(200).send("OK")
       });
     } else {
       // send false status if user not signed in

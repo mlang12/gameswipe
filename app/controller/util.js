@@ -152,6 +152,7 @@ const utils = {
   },
 
   userSwipes(seenGames, plats, genres, gamesByPlatform, genreData, res, cb) {
+    console.log('Seen 32?', seenGames.indexOf(32))
     const gamesInUserPlatformRange = this.getGamesInCategories(plats, gamesByPlatform);
     const gamesInUserGenreRange = this.getGamesInCategories(genres, genreData);
     const combinedGames = this.findCommmonGameIds(gamesInUserGenreRange, gamesInUserPlatformRange);

@@ -19,14 +19,14 @@ class Signup extends Component {
 
   handleSubmit(event){
     const _this = this;
-    helpers.signUp(this.state).then(function(data) {
-      if (data) {
-        if (data.data !== undefined){
-          console.log(data)
+    helpers.signUp(this.state).then(function(response) {
+      if (response) {
+        if (response.data !== undefined && !response.data.error){
+          console.log(response.data)
           _this.props.setAuth(true);
         } else {
           _this.setState({
-            warn: "That username or email is taken."
+            warn: response.data.error
           });
         }
       }

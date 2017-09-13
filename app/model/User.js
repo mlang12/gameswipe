@@ -11,6 +11,7 @@ var userSchema = mongoose.Schema({
   dateSignup: Date,
   like: Array,
   dontLike: Array,
+  seen: Array,
   profile: {
     systems: Array,
     genres: Array,

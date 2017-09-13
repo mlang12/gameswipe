@@ -128,8 +128,63 @@ var helpers = {
   },
 
   updateSwipe: function(ids) {
-
     return axios.post('/swipeupdate', {ids:ids}, {
+      withCredentials: true
+    }).then(function(response) {
+      if (response) {
+        return response;
+      } else {
+        return false;
+      }
+    }).catch(function(err) {
+      return err;
+    });
+  },
+  
+  addToLike: function(id) {
+    return axios.post('/api/addToLike', {ids:id}, {
+      withCredentials: true
+    }).then(function(response) {
+      if (response) {
+        return response;
+      } else {
+        return false;
+      }
+    }).catch(function(err) {
+      return err;
+    });
+  },
+
+  addToDisLike: function(id) {
+    return axios.post('/api/addTodisLike', {ids:id}, {
+      withCredentials: true
+    }).then(function(response) {
+      if (response) {
+        return response;
+      } else {
+        return false;
+      }
+    }).catch(function(err) {
+      return err;
+    });
+  },
+
+  getAllLiked: function(gameIds) {
+    return axios.post('/getLikedGames', {ids:gameIds}, {
+      withCredentials: true
+    }).then(function(response) {
+      if (response) {
+        return response;
+      } else {
+        return false;
+      }
+    }).catch(function(err) {
+      return err;
+    });
+  },
+
+  replaceLikes: function(newListOfLikes) {
+    return axios.post('/removeGameFromLikes', {ids:newListOfLikes}, {
       withCredentials: true
     }).then(function(response) {
       if (response) {
