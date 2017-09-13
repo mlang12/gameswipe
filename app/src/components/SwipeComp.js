@@ -103,9 +103,9 @@ class SwipeComp extends Component {
       return (
         <div className="center">
           <ReactSwipe ref="reactSwipe" className="mySwipe" swipeOptions={swipeOptions}>
-              <div><Gametile key={games[index[0]].id} result={games[index[0]]}/></div>
-              <div><Gametile key={games[index[1]].id} result={games[index[1]]}/></div>
-              <div><Gametile key={games[index[2]].id} result={games[index[2]]}/></div>
+              <div><Gametile cn={'swipeImg'} key={games[index[0]].id} result={games[index[0]]}/></div>
+              <div><Gametile cn={'swipeImg'} key={games[index[1]].id} result={games[index[1]]}/></div>
+              <div><Gametile cn={'swipeImg'} key={games[index[2]].id} result={games[index[2]]}/></div>
           </ReactSwipe>
           <div>
             <button type="button" className="btn swipeButton disLikeButton" onClick={this.prev.bind(this)}>Dislike</button>

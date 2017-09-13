@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "gameSwipe",
+  "name": "GameSwipe - Discover Games",
   "icons": [
     {
       "src": "favicon.ico",

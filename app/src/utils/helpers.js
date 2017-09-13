@@ -128,7 +128,7 @@ var helpers = {
   },
 
   updateSwipe: function(ids) {
-    return axios.post('/swipeupdate', {ids:ids}, {
+    return axios.post('/swipeupdate', { ids:ids }, {
       withCredentials: true
     }).then(function(response) {
       if (response) {
@@ -156,7 +156,7 @@ var helpers = {
   },
 
   addToDisLike: function(id) {
-    return axios.post('/api/addTodisLike', {ids:id}, {
+    return axios.post('/api/addTodisLike', { ids:id }, {
       withCredentials: true
     }).then(function(response) {
       if (response) {
@@ -170,7 +170,7 @@ var helpers = {
   },
 
   getAllLiked: function(gameIds) {
-    return axios.post('/getLikedGames', {ids:gameIds}, {
+    return axios.post('/getLikedGames', { ids:gameIds }, {
       withCredentials: true
     }).then(function(response) {
       if (response) {
@@ -184,7 +184,7 @@ var helpers = {
   },
 
   replaceLikes: function(newListOfLikes) {
-    return axios.post('/removeGameFromLikes', {ids:newListOfLikes}, {
+    return axios.post('/removeGameFromLikes', { ids:newListOfLikes }, {
       withCredentials: true
     }).then(function(response) {
       if (response) {
@@ -195,7 +195,21 @@ var helpers = {
     }).catch(function(err) {
       return err;
     });
-  }
+  },
+
+  setFilters: function(profile) {
+    return axios.post('/setFilters', { "profile":profile }, {
+      withCredentials: true
+    }).then(function(response) {
+      if (response) {
+        return response;
+      } else {
+        return false;
+      }
+    }).catch(function(err) {
+      return err;
+    });
+  },
 
 }
 

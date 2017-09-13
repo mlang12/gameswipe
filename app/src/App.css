@@ -58,8 +58,7 @@ body {
 
 .gameTileImg {
   width: 100%;
-  max-width: 569px;
-
+  max-width: 30vh;
 }
 
 .gameTile,
@@ -67,7 +66,7 @@ body {
 .ssImg,
 .gameDetailsCoverImg,
 .likeItemImg {
-  box-shadow: 3px 3px 10px darkslategray;
+  box-shadow: 3px 3px 10px black;
 }
 
 .gameTileHeader {
@@ -124,6 +123,7 @@ body {
 
 .filterHolder {
   height: auto;
+  margin: 3%;
 }
 
 .inputWarn {
@@ -166,7 +166,8 @@ body {
 
 .gameDetailsCoverImg {
   max-width: 960px;
-  width: 100%;
+  /*width: 100%;*/
+  max-height: 75vh;
 }
 
 .formWrapper {
@@ -273,4 +274,13 @@ option {
   margin-left: 0px;
   margin-right: 0px;
   width: 100%;
+}
+
+.cboxHolder {
+  margin: 2%;
+}
+
+.swipeImg {
+  width: 100%;
+  height: 50%
 }

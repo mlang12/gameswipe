@@ -10,7 +10,7 @@ class LandingTiles extends Component {
     return (
       <div className="row">
         {this.props.results.map(function(result) {
-           return <Gametile key={result.id} result={result}/>;
+           return <Gametile cn={"gameTileImg"} key={result.id} result={result}/>;
         })}
       </div>
     );

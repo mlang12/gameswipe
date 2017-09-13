@@ -60,3 +60,4 @@ typings/
 test.js
 app/keys.json
 app/config/seeds.json
+.DS_Store

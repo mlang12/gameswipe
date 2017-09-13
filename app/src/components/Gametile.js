@@ -9,7 +9,7 @@ class Gametile extends Component {
   render() {
     return (
       <div className="gameTile">
-        <img className="gameTileImg" src={this.props.result.cover.url} />
+        <img className={this.props.cn} src={this.props.result.cover.url} />
         <div className="gameTileInfo">
           <Link className="gameTileLink" to={'/gameview/' + this.props.result.id}>
             <h3 className="gameTileHeader">{this.props.result.name}</h3>

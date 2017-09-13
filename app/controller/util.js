@@ -1,4 +1,4 @@
-const seeds = require('../config/seeds.json');
+const seeds = require('../src/seeds.json');
 
 const utils = {
   replacePics: function(desiredPicSize, idbObj) {

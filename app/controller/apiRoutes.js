@@ -131,7 +131,7 @@ function routes(app, passport) {
       fields: "*",
       ids: [gameId]
     }).then(response => {
-      let cleanResponse = utils.replacePics('screenshot_big', response); // Replace picture sizes
+      let cleanResponse = utils.replacePics('720p', response); // Replace picture sizes
       cleanResponse = utils.populateGenres(cleanResponse); // Get Genre names for each game
       utils.sendRes(res, utils.populatePlatforms(cleanResponse));
     }).catch(error => {
@@ -178,7 +178,7 @@ function routes(app, passport) {
       ids: req.body.ids,
       limit: 50
     }, ['id','name','cover', 'genres', 'summary', 'total_rating', 'release_dates']).then(response => {
-      let cleanResponse = utils.replacePics('screenshot_med', response); // Replace picture sizes
+      let cleanResponse = utils.replacePics('screenshot_big', response); // Replace picture sizes
       cleanResponse = utils.populateGenres(cleanResponse); // Get Genre names for each game
       cleanResponse = utils.populatePlatforms(cleanResponse); // Get platform info for each game
       cleanResponse = utils.addMiniView(cleanResponse); // Adds a mini category to the results for display on gametile
@@ -306,10 +306,7 @@ function routes(app, passport) {
       User.findOneAndUpdate({
         username: req.user.username
       }, {
-        profile: {
-          systems: req.body.platforms,
-          genres: req.body.genres
-        }
+        profile: req.body.profile
       }).then(function(data){
         res.status(200).send("OK")
       });
