@@ -201,6 +201,11 @@ form {
   margin-right: 5%;
 }
 
-.selectpicker {
+option {
   color: darkslategray;
+}
+
+.swipeButton {
+  margin: 2%;
+  min-width: 100px;
 }

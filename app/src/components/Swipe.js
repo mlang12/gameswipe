@@ -22,7 +22,7 @@ class Swipe extends Component {
     helpers.getSwipeContent().then(function(allGamedata) {
       const allGames = allGamedata.data;
       helpers.updateSwipe(allGames.slice(0,10)).then(function(fullDetail) {
-        console.log(fullDetail)
+        console.log('fulldetail', fullDetail)
         _this.setState({
           gameDetails: fullDetail.data.body,
           games: allGames,
@@ -50,10 +50,12 @@ class Swipe extends Component {
 
   updateRemain(){
     const _this = this;
+    const remain = this.state.remainInCurrentSet;
     this.setState({
-      offset: _this.state.offset - 1
+      remainInCurrentSet: remain - 1
     });
   }
+
   render() {
     if(this.state && this.state.games === null) {
       return (
@@ -65,7 +67,7 @@ class Swipe extends Component {
     } else {
       return (
         <div className="row swipeHolder">
-          <SwipeComp items={this.state.gameDetails} updateRemain={this.state.remainInCurrentSet} />
+          <SwipeComp items={this.state.gameDetails} updateRemain={this.updateRemain} />
         </div>
       );
     }
