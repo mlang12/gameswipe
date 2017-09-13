@@ -9,6 +9,12 @@ a:hover {
     text-decoration: none !important;
 }
 
+html {
+  position: relative;
+    min-height: 100%;
+}
+
+
 body {
   background: #de6161;  /* fallback for old browsers */
   background: -webkit-linear-gradient(to top, #2657eb, #de6161);  /* Chrome 10-25, Safari 5.1-6 */
@@ -16,6 +22,10 @@ body {
   background-size: cover;
   min-height: 100vh;
   background-attachment: fixed;
+}
+
+.row {
+  margin-bottom: 10%;
 }
 
 .textCenter {
@@ -45,11 +55,12 @@ body {
 .gameTile {
   width: 569px;
   height: 320px;
-  margin-top: 7%;
+  margin-top: 5%;
   text-align: center;
   box-shadow: 3px 3px 10px darkslategray;
   background-size: cover;
-  margin-left: 24%;
+  margin-left: 25%;
+  margin-bottom: 30px;
   /*background-attachment: fixed;*/
 }
 
@@ -79,11 +90,29 @@ body {
   transition: color .3s;
 }
 
+/*
 .footer {
-  padding: 35px;
-  bottom: 0;
-  margin-top: 40px;
+  padding: 25px;
+  margin-top: 45px;
   color: white;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  width: 100%;
+  position: fixed;
+}
+
+*/
+
+.footer {
+  position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 100px;
+    width: 100%;
+    overflow:hidden;
+    color: white;
+    padding: 50px;
 }
 
 .selectpicker {

@@ -7,11 +7,13 @@ class Footer extends Component {
 
 render() {
    return (
+    <div className='wrapper'>
    	<div className='footer'>
    		<footer>
    			<p>@Copyright GameSwap 2017</p>
    		</footer>
    	 </div>
+     </div>
 	)
   }
 };
