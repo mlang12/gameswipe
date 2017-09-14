@@ -10,6 +10,7 @@ import Gameview from './components/Gameview.js';
 import Swipe from './components/Swipe.js';
 import Logout from './components/Logout.js';
 import helpers from './utils/helpers.js';
+import NotFound404 from './components/NotFound404.js'
 import './App.css';
 import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 
@@ -88,6 +89,7 @@ class App extends Component {
             <Route exact path='/logout' render={(props) => (
               <Logout {...props} setAuth={this.setAuthState}/>
             )}/>
+            <Route path='*' exact={true} component={NotFound404} />
           </Switch>
         </div>
         <div className="footerArea">

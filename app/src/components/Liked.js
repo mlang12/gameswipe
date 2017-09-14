@@ -87,7 +87,7 @@ class Liked extends Component {
       return (
         <div>
           <h1>Welcome {this.state.user.username}!</h1>
-          <h2> You currently have no likes.. try <Link className="swipeLink" to="/swipe">swiping!</Link> </h2>
+          <h2> You currently have no likes.. try <Link className="whiteLink swipeLink" to="/swipe">swiping!</Link> </h2>
         </div>
       );
     } else {

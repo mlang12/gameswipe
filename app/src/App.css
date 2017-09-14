@@ -107,7 +107,9 @@ body {
 }
 
 .menuItem:hover,
-.logo:hover {
+.logo:hover,
+.whiteLink:hover {
+  border-bottom: 0px dashed darkslategrey;
   color: darkslategrey;
   -webkit-transition: color .3s; /* Safari */
   transition: color .3s;
@@ -258,27 +260,31 @@ option {
   font-style: italic;
 }
 
-.likeButton {
+.likeButton,
+.greenish {
   background: #00b09b;  /* fallback for old browsers */
   background: -webkit-linear-gradient(to right, #96c93d, #00b09b);  /* Chrome 10-25, Safari 5.1-6 */
   background: linear-gradient(to right, #96c93d, #00b09b); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 
-.likeButton:hover {
+.likeButton:hover,
+.greenish:hover {
   background: green;  /* fallback for old browsers */
   background: -webkit-linear-gradient(to right, #96c93f, green);  /* Chrome 10-25, Safari 5.1-6 */
   background: linear-gradient(to right, #96c93f, green); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 
 .disLikeButton,
-.removeButton {
+.removeButton,
+.redish {
   background: #cb2d3e;  /* fallback for old browsers */
   background: -webkit-linear-gradient(to right, #ef473a, #cb2d3e);  /* Chrome 10-25, Safari 5.1-6 */
   background: linear-gradient(to right, #ef473a, #cb2d3e); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 
 .disLikeButton:hover,
-.removeButton:hover {
+.removeButton:hover,
+.redish:hover {
   background: darkred;  /* fallback for old browsers */
   background: -webkit-linear-gradient(to right, darkred, #cb2d3f);  /* Chrome 10-25, Safari 5.1-6 */
   background: linear-gradient(to right, darkred, #cb2d3f); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
@@ -349,5 +355,20 @@ button {
 .navEle {
   width: 100%;
 }
+
+.whiteLink {
+  color: white;
+  border-bottom: 2px dashed darkslategrey;
+}
+
+.inGameButton {
+  width: 100px;
+  margin: 1%;
+}
+
+.gameTileHeaderHolder {
+  margin-bottom: 1%;
+}
+
 
 
