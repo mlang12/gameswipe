@@ -4,6 +4,7 @@ const client = igdb(key);
 const utils = require('./util.js');
 const User = require('../model/User.js');
 const plats = require('../config/platforms.json').platforms
+const path = require('path');
 
   // route middleware to make sure
 function isLoggedIn(req, res, next) {
@@ -17,6 +18,10 @@ function isLoggedIn(req, res, next) {
 function routes(app, passport) {
   //Function to get the basic landing tiles
   var randomStart;
+  app.get("/", function(req, res) {
+    res.sendFile(path.join(__dirname + '/build/index.html'));
+  });
+
   app.get("/api/landing", function(req, res) {
     randomStart = Math.floor(Math.random()*9900);
     client.games({

@@ -12,8 +12,6 @@ var LocalStrategy = require('passport-local').Strategy;
 
 var PORT = process.env.PORT || 3100;
 
-// require('./app/config/passport')(passport); // pass passport for configuration
-
 // set up our express application
 app.use(morgan('dev'));
 app.use(bodyParser.json());
@@ -28,7 +26,8 @@ app.use(require('express-session')({
 // Configure passport middleware
 app.use(passport.initialize());
 app.use(flash());
-app.use(passport.session()); 
+app.use(passport.session());
+app.use(express.static('build')) 
 
 // required for passport
 const User = require('./app/model/User.js');

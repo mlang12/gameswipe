@@ -2,6 +2,7 @@
   "name": "gameswipe",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://gameswipe.mindbrier.com/",
   "dependencies": {
     "axios": "^0.16.2",
     "bcrypt-nodejs": "0.0.3",
