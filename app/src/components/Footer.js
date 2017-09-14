@@ -5,7 +5,7 @@ class Footer extends Component {
    return (
     <div className='footer'>
    		<footer>
-   			<p>@Copyright GameSwipe 2017</p>
+   			<p>&copy;Copyright GameSwipe 2017</p>
    		</footer>
    	 </div>
 		)

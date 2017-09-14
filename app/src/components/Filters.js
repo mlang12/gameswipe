@@ -27,7 +27,17 @@ class Filters extends Component {
 
   saveFilters() {
     helpers.setFilters(this.state.profile).then(response => {
-      console.log("After Save:", response);
+      if (response.data === "OK") {
+      this.setState({
+        warn: "Filters Saved, Success!",
+        warnColor: "goodWarn"
+      });
+      } else {
+        this.setState({
+          warn: "Something went wrong saving...",
+          warnColor: "badWarn"
+        });
+      }
     });
   }
 
@@ -36,20 +46,11 @@ class Filters extends Component {
     const type = e.target.className;
     const id = Number(e.target.id);
     const index = prof[type].indexOf(id);
-
-    console.log(
-      "prof: ", prof,
-      "type: ", type,
-      "id: ", id,
-      "index", index
-    )
-
     index >= 0 ? prof[type].splice(index, 1) : prof[type].push(id);
-
     this.setState({
-      profile: prof
+      profile: prof,
+      warnColor: ""
     });
-    console.log("prof After:", prof)
   }
 
   userChoice(id, type) {
@@ -96,7 +97,7 @@ class Filters extends Component {
           </div>
           <div className="row">
             <button className="btn likeButton" onClick={this.saveFilters}>Save Filters</button>
-            <p className="inputWarn">{this.state.warn}</p>
+            <p className={this.state.warnColor + " inputWarn"}>{this.state.warn}</p>
           </div>
         </div>
       );

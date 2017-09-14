@@ -14,7 +14,10 @@ class Signup extends Component {
 
   handleChange(event) {
     var name = event.target.name;
-    this.setState({[name]: event.target.value});
+    this.setState({
+      [name]: event.target.value,
+      warnColor: ""
+    });
   }
 
   handleSubmit(event){
@@ -26,7 +29,8 @@ class Signup extends Component {
           _this.props.setAuth(true);
         } else {
           _this.setState({
-            warn: response.data.error
+            warn: response.data.error,
+            warnColor: "badWarn disappear"
           });
         }
       }
@@ -48,7 +52,7 @@ class Signup extends Component {
             <input type="text" className="form-control" name="email" onChange={this.handleChange} placeholder="Email..."/>
             <input type="password" className="form-control" name="password" onChange={this.handleChange} placeholder="Password..."/>
             <button className="btn btn-lg btn-primary btn-block">Signup</button>
-            <p className="inputWarn">{this.state.warn}</p>
+            <p className={"inputWarn " + this.state.warnColor}>{this.state.warn}</p>
           </form>
         </div>
       ); 

@@ -14,7 +14,10 @@ class Signin extends Component {
 
   handleChange(event) {
     var name = event.target.name;
-    this.setState({[name]: event.target.value});
+    this.setState({
+      [name]: event.target.value,
+      warnColor: ""
+    });
   }
 
   handleSubmit(event){
@@ -28,7 +31,8 @@ class Signin extends Component {
       } else {
         _this.props.setAuth(false);
         _this.setState({
-          warn: response.data.error[0]
+          warn: response.data.error[0],
+          warnColor: "badWarn disappear"
         })
         console.log('Failed to login.');
       }
@@ -46,7 +50,7 @@ class Signin extends Component {
             <input type="text" className="form-control" name="username" onChange={this.handleChange} placeholder="Username..."/>
             <input type="password" className="form-control" name="password" onChange={this.handleChange} placeholder="Password..."/>
             <button className="btn btn-lg btn-primary btn-block">Login</button>
-            <p className="inputWarn">{this.state.warn}</p>
+            <p className={"inputWarn " + this.state.warnColor }>{this.state.warn}</p>
           </form>
         </div>
       );

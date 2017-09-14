@@ -9,7 +9,7 @@ class Liked extends Component {
     super(props);
     this.state = {
       user: null,
-      like: null
+      like: []
     }
 
     const _this = this;
@@ -62,20 +62,14 @@ class Liked extends Component {
 
 
   render() {
-    if (this.state.user === null || this.state.like == null){
+    if (this.state.user === null){
       return (
         <div>
           <Loading/>
         </div>
       );
-    } else if(this.state.like === [] && this.state.user !== null) {
-      <div>
-        <h1>Welcome {this.state.user.username}!</h1>
-        <h2> You currently have no likes.. try <Link className="swipeLink" to="/swipe">swiping!</Link> </h2>
-      </div>
-    } else {
+    } else if(this.state.user.like.length > 0) {
       const _this = this;
-      console.log('::::::::::::',this.state)
       return (
         <div className="">
           <h1>Welcome {this.state.user.username}!</h1>
@@ -87,6 +81,19 @@ class Liked extends Component {
               </div>
             );
           })}
+        </div>
+      );
+    } else if(this.state.user.like.length === 0) {
+      return (
+        <div>
+          <h1>Welcome {this.state.user.username}!</h1>
+          <h2> You currently have no likes.. try <Link className="swipeLink" to="/swipe">swiping!</Link> </h2>
+        </div>
+      );
+    } else {
+      return (
+        <div>
+          <h2>Sorry about that... something went wrong...</h2>
         </div>
       );
     }

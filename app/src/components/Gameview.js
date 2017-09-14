@@ -38,7 +38,7 @@ class Gametile extends Component {
             <h3> Details: </h3>
             <p>Release Date: {moment(this.state.first_release_date).format("MMM-DD-YYYY")}</p>
             <p>Rating: {parseInt(this.state.total_rating)}/100 </p>
-            <p>Genre: {this.state.genres}</p>
+            <p>Genre: {this.state.genres.join(", ")}</p>
             <p>Platform: {this.state.platform}</p>
           </div>
           <div className="row gameDetailsScreenShots">

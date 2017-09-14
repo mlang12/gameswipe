@@ -4,11 +4,11 @@
   font-family: 'Open Sans', sans-serif;
   color: white
 }
-
+/*
 html {
   position: relative;
   min-height: 100%;
-}
+}*/
 
 a,
 a:hover {
@@ -68,7 +68,8 @@ body {
 .loadgif,
 .ssImg,
 .gameDetailsCoverImg,
-.likeItemImg {
+.likeItemImg,
+.inputWarn {
   box-shadow: 3px 3px 10px black;
 }
 
@@ -113,9 +114,9 @@ body {
 }
 
 .footer {
-  position: absolute;
+  /*position: absolute;
   left: 0;
-  bottom: 0;
+  bottom: 0;*/
   height: 100px;
   width: 100%;
   overflow:hidden;
@@ -142,8 +143,18 @@ footer.p {
 }
 
 .inputWarn {
-  color: red;
   font-style: italic;
+  font-weight: bolder;
+  background: white;
+  padding: 15px;
+  width: 100%;
+  max-width: 200px;
+  margin: 3%;
+  display: none;
+  position: fixed;
+  top: 49%;
+  left: 49%;
+  transform: translate(-50%, -50%);
 }
 
 .platformDetails {
@@ -166,11 +177,15 @@ footer.p {
 
 .loadgif {
   border-radius: 100%;
+  width: 100%;
+  max-width: 200px;
 }
 
 .ssRow,
 .ssImg,
-.gameDetailContainer {
+.gameDetailContainer,
+.swipeButton,
+.removeButton {
   margin: 2%;
 }
 
@@ -225,7 +240,6 @@ option {
 
 .swipeButton,
 .removeButton {
-  margin: 2%;
   min-width: 100px;
 }
 
@@ -302,21 +316,19 @@ option {
   height: 50%
 }
 
-/*.labelSpan {
-  margin-right: 3px;
-}
-
-cbox {
-  margin-left: 1%;
-}
-
-.genres,
-.systems {
-  display: inline-block;
-}*/
-
 .cboxHolder {
   margin-right: 1%;
   margin-bottom: 1%;
 }
+
+.goodWarn {
+  color: green;
+  display: initial;
+}
+
+.badWarn {
+  color: red;
+  display: initial;
+}
+
 
