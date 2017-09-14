@@ -127,6 +127,7 @@ var helpers = {
     });
   },
 
+  // Returns populated game objects to swipe
   updateSwipe: function(ids) {
     return axios.post('/swipeupdate', { ids:ids }, {
       withCredentials: true
@@ -141,6 +142,7 @@ var helpers = {
     });
   },
   
+  // Posts a game to user's "like" profile
   addToLike: function(id) {
     return axios.post('/api/addToLike', {ids:id}, {
       withCredentials: true
@@ -155,6 +157,7 @@ var helpers = {
     });
   },
 
+  // Posts a game to user's "dislike" profile
   addToDisLike: function(id) {
     return axios.post('/api/addTodisLike', { ids:id }, {
       withCredentials: true
@@ -169,6 +172,7 @@ var helpers = {
     });
   },
 
+  // Returns populated objects for all a user's liked's games
   getAllLiked: function(gameIds) {
     return axios.post('/getLikedGames', { ids:gameIds }, {
       withCredentials: true
@@ -183,6 +187,7 @@ var helpers = {
     });
   },
 
+  // Will replace a user's "Liked" profile with new array
   replaceLikes: function(newListOfLikes) {
     return axios.post('/removeGameFromLikes', { ids:newListOfLikes }, {
       withCredentials: true
@@ -197,10 +202,24 @@ var helpers = {
     });
   },
 
+  // Saves a user's filter settings
   setFilters: function(profile) {
     return axios.post('/setFilters', { "profile":profile }, {
       withCredentials: true
     }).then(function(response) {
+      if (response) {
+        return response;
+      } else {
+        return false;
+      }
+    }).catch(function(err) {
+      return err;
+    });
+  },
+
+  // Gets search results
+  getSearch: function(terms) {
+    return axios.get('/search/' + terms).then(function(response) {
       if (response) {
         return response;
       } else {

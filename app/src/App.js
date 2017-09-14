@@ -22,12 +22,31 @@ class App extends Component {
     };
 
     this.setAuthState = this.setAuthState.bind(this);
+    this.setLandingDisplays = this.setLandingDisplays.bind(this);
   }
 
   setAuthState(state) {
     this.setState({
       authState: state
     });
+  }
+
+  setLandingDisplays(displays) {
+    if (displays) {
+      this.setState({
+        landingDisplays: displays
+      });
+    }
+  }
+
+  componentDidMount(){
+    if(this.state.landingDisplays.length === 0 || this.state.landingDisplays === 'undefined') {
+      helpers.getLanding().then((displays) => {
+        this.setState({
+          landingDisplays: displays.data.body
+        });
+      });
+    }
   }
 
   render() {
@@ -48,11 +67,13 @@ class App extends Component {
     return (
       <div className="App bg textCenter">
         <div className="headerArea">
-          <Header isAuth={this.state.authState}/>
+          <Header setDisplay={this.setLandingDisplays} isAuth={this.state.authState}/>
         </div>
         <div className="container">
           <Switch>
-            <Route exact path='/' component={Home}/>
+            <Route exact path='/' render={(props) => (
+              <Home {...props} displayContent={this.state.landingDisplays}/>
+            )}/>
             <Route path="/gameview" component={Gameview} />
             <Route exact path='/signup' render={(props) => (
               <Signup {...props} setAuth={this.setAuthState} isAuth={this.state.authState}/>

@@ -224,7 +224,7 @@ form {
   transition: background-color .7s;
 }
 
-.form-control {
+.inputBar {
   margin-top: 3%;
   margin-bottom: 3%;
 }
@@ -329,6 +329,25 @@ option {
 .badWarn {
   color: red;
   display: initial;
+}
+
+.searchBar {
+  width: 100%;
+  /*margin-top: 2%;*/
+}
+
+.goButton,
+.searchParts {
+  height: 40px;
+}
+
+input,
+button {
+  border-radius: 2px !important;
+}
+
+.navEle {
+  width: 100%;
 }
 
 

@@ -1,29 +1,20 @@
 import React, { Component } from 'react';
 import LandingTiles from './LandingTiles.js';
-import helpers from '../utils/helpers.js'
-class Home extends Component {
-  constructor(props) {
-    super(props);
+import Loading from './Loading.js'
 
-    this.state = {
-      landingDisplays: []
-    }
-  }
-  componentDidMount(){
-    if(this.state.landingDisplays.length === 0 || this.state.landingDisplays === 'undefined') {
-      helpers.getLanding().then((displays) => {
-        this.setState({
-          landingDisplays: displays.data.body
-        });
-      });
-    }
-  }
+class Home extends Component {
   render() {
-    return (
-      <div className="landingTileArea">
-        <LandingTiles results={this.state.landingDisplays}/>
-      </div>
-    );
+    if (this.props.displayContent !== undefined) {
+      return (
+        <div className="landingTileArea">
+          <LandingTiles results={this.props.displayContent}/>
+        </div>
+      );
+    } else {
+      return (
+        <Loading />
+      );
+    }
   }
 }
 

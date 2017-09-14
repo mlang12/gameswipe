@@ -4,8 +4,10 @@ class GuestHeader extends Component {
   render() {
     return (
       <span className="headerMenu">
-        <Link to="/signin" className="menuItem">Login</Link>
-        <Link to="/signup" className="menuItem">Sign-Up</Link>
+        <div className={this.props.cn}>
+          <Link to="/signin" className="menuItem">Login</Link>
+          <Link to="/signup" className="menuItem">Sign-Up</Link>
+        </div>
       </span>
     );
   }

@@ -48,10 +48,10 @@ class Signup extends Component {
         <div className="signup formWrapper">
           <form className="form-signup" onSubmit={this.handleSubmit}>       
             <h2 className="form-signup-heading">Please fill in the fields below</h2>
-            <input type="text" className="form-control" name="username" onChange={this.handleChange} placeholder="Username..."/>
-            <input type="text" className="form-control" name="email" onChange={this.handleChange} placeholder="Email..."/>
-            <input type="password" className="form-control" name="password" onChange={this.handleChange} placeholder="Password..."/>
-            <button className="btn btn-lg btn-primary btn-block">Signup</button>
+            <input type="text" className="form-control inputBar" name="username" onChange={this.handleChange} placeholder="Username..."/>
+            <input type="text" className="form-control inputBar" name="email" onChange={this.handleChange} placeholder="Email..."/>
+            <input type="password" className="form-control inputBar" name="password" onChange={this.handleChange} placeholder="Password..."/>
+            <button className="btn btn-lg likeButton btn-block inputBar">Signup</button>
             <p className={"inputWarn " + this.state.warnColor}>{this.state.warn}</p>
           </form>
         </div>

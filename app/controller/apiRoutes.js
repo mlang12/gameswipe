@@ -32,7 +32,6 @@ function routes(app, passport) {
       limit: 50, // Limit to 5 results
       offset: randomStart // Index offset for results
     }, ['id','name','cover', 'genres', 'summary', 'total_rating', 'release_dates']).then(response => {
-      console.log(response)
       let cleanResponse = utils.replacePics('screenshot_med', response); // Replace picture sizes
       cleanResponse = utils.populateGenres(cleanResponse); // Get Genre names for each game
       cleanResponse = utils.populatePlatforms(cleanResponse); // Get platform info for each game
@@ -183,7 +182,7 @@ function routes(app, passport) {
       ids: req.body.ids,
       limit: 50
     }, ['id','name','cover', 'genres', 'summary', 'total_rating', 'release_dates']).then(response => {
-      let cleanResponse = utils.replacePics('screenshot_big', response); // Replace picture sizes
+      let cleanResponse = utils.replacePics('screenshot_med', response); // Replace picture sizes
       cleanResponse = utils.populateGenres(cleanResponse); // Get Genre names for each game
       cleanResponse = utils.populatePlatforms(cleanResponse); // Get platform info for each game
       cleanResponse = utils.addMiniView(cleanResponse); // Adds a mini category to the results for display on gametile
@@ -320,6 +319,36 @@ function routes(app, passport) {
       res.status(401).json({'auth': false })
     }
   });
+
+  app.get('/search/:terms', function(req, res) {
+    const searchTerms = req.params.terms;
+    // searchTerms = utils.cleanSearchTerms(searchTerms);
+    client.games({
+      search: searchTerms,
+      limit: 50,
+      offset: 0
+    }).then(function(response) {
+      if (response.body.length > 0) {
+        const idsToSearch = response.body.map(idObj => {
+          return idObj.id;
+        });
+        client.games({
+          ids: idsToSearch,
+          limit: 50
+        }, ['id','name','cover', 'genres', 'summary', 'total_rating', 'release_dates']).then(response => {
+          let cleanResponse = utils.replacePics('screenshot_med', response); // Replace picture sizes
+        cleanResponse = utils.populateGenres(cleanResponse); // Get Genre names for each game
+        cleanResponse = utils.populatePlatforms(cleanResponse); // Get platform info for each game
+        cleanResponse = utils.addMiniView(cleanResponse); // Adds a mini category to the results for display on gametile
+        utils.sendRes(res, utils.clearResponseOfEmpty('cover', cleanResponse)); // Only display games with a cover
+        }).catch(error => {
+          throw error;
+        });
+      } else {
+        res.status(200).send(response);
+      }
+    });
+  })
 }
 
 module.exports = routes;

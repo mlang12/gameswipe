@@ -47,9 +47,9 @@ class Signin extends Component {
         <div className="signin formWrapper">
           <form className="form-signin" onSubmit={this.handleSubmit}>       
             <h2 className="form-signin-heading">Please login</h2>
-            <input type="text" className="form-control" name="username" onChange={this.handleChange} placeholder="Username..."/>
-            <input type="password" className="form-control" name="password" onChange={this.handleChange} placeholder="Password..."/>
-            <button className="btn btn-lg btn-primary btn-block">Login</button>
+            <input type="text" className="form-control inputBar" name="username" onChange={this.handleChange} placeholder="Username..."/>
+            <input type="password" className="form-control inputBar" name="password" onChange={this.handleChange} placeholder="Password..."/>
+            <button className="btn btn-lg likeButton btn-block inputBar">Login</button>
             <p className={"inputWarn " + this.state.warnColor }>{this.state.warn}</p>
           </form>
         </div>
