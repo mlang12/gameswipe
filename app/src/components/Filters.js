@@ -63,7 +63,7 @@ class Filters extends Component {
         <div className="filtersArea">
           <h2> Edit Filters </h2>
 
-          <div className="filterHolder">
+          <div className="filterHolder row">
             <h3> Genres </h3>
             {Object.keys(seeds.genreRefNameToNum).map(genre => {
               return (
@@ -79,7 +79,7 @@ class Filters extends Component {
             })}
           </div>
 
-          <div className="filterHolder">
+          <div className="filterHolder row">
             <h3> Platforms </h3>
               {Object.keys(seeds.platRefNameToNum).map(platform => {
                 return (
@@ -94,8 +94,10 @@ class Filters extends Component {
                 );
               })}
           </div>
-          <button className="btn likeButton" onClick={this.saveFilters}>Save Filters</button>
-          <p className="inputWarn">{this.state.warn}</p>
+          <div className="row">
+            <button className="btn likeButton" onClick={this.saveFilters}>Save Filters</button>
+            <p className="inputWarn">{this.state.warn}</p>
+          </div>
         </div>
       );
     } else {

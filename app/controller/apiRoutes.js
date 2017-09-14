@@ -33,7 +33,7 @@ function routes(app, passport) {
       offset: randomStart // Index offset for results
     }, ['id','name','cover', 'genres', 'summary', 'total_rating', 'release_dates']).then(response => {
       console.log(response)
-      let cleanResponse = utils.replacePics('cover_big', response); // Replace picture sizes
+      let cleanResponse = utils.replacePics('screenshot_med', response); // Replace picture sizes
       cleanResponse = utils.populateGenres(cleanResponse); // Get Genre names for each game
       cleanResponse = utils.populatePlatforms(cleanResponse); // Get platform info for each game
       cleanResponse = utils.addMiniView(cleanResponse); // Adds a mini category to the results for display on gametile

@@ -5,7 +5,8 @@ class CheckBoxComp extends Component {
     return (
       <span className="cbox">
         <label>
-          {this.props.label}
+          <span>
+          <span className="labelSpan">{this.props.label}</span>
           <input
             name={this.props.label}
             type="checkbox"
@@ -13,6 +14,7 @@ class CheckBoxComp extends Component {
             className={this.props.type}
             checked={this.props.userChoice}
             onChange={this.props.update} />
+            </span>
         </label>
       </span>
     );
