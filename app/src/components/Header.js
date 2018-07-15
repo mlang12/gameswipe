@@ -19,17 +19,23 @@ class Header extends Component {
     }
     return (
       <nav className="navbar header row">
-        <div className="col-xl-3 col-md-3 col-xs-3 textLeft">
-          <div className="navEle">
-            <Link className="navEle" to="/"><h1 className="logo navEle"><span className="logoSmooth">Game</span><span className="logoSwipe">Swipe</span></h1></Link>
+        <div className="row">
+          <div className="col-xl-12 col-md-12 col-xs-12 textLeft">
+            <div className="navEle">
+              <Link className="navEle" to="/"><h1 className="logo navEle"><span className="logoSmooth">Game</span><span className="logoSwipe">Swipe</span></h1></Link>
+            </div>
           </div>
         </div>
-        <div className="col-xl-5 col-md-5 col-xs-5">
-          <Search setDisplay={this.props.setDisplay} cn={"navEle"}/>
+        <div className="row">
+          <div className="col-xl-12 col-md-12 col-xs-12 textRight">
+            <h2>{Greeting(this.props)}</h2>
+          </div>  
         </div>
-        <div className="col-xl-4 col-md-4 col-xs-4 textRight">
-          <h2>{Greeting(this.props)}</h2>
-        </div>  
+        <div className="row">
+          <div className="col-xl-12 col-md-12 col-xs-12">
+            <Search setDisplay={this.props.setDisplay} cn={"navEle"} />
+          </div>
+        </div>
       </nav>
     );
   }
